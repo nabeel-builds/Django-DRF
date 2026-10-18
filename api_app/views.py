@@ -10,6 +10,7 @@ from employees.models import Employee
 from django.http import Http404
 from rest_framework import mixins, generics
 from blogs.models import Blog, Comment
+from .pagination import CustomPagination
 
 # Create your views here.
 
@@ -135,6 +136,7 @@ def studentsDetailView(request, pk):
 class EmployeesView(generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    pagination_class = CustomPagination()
 
 
 
@@ -148,6 +150,7 @@ class EmployeesDetailView(generics.RetrieveUpdateDestroyAPIView):
 class BlogsView(generics.ListCreateAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+    
 
 
 class CommnetsView(generics.ListCreateAPIView):
@@ -159,6 +162,7 @@ class BlogDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
     lookup_field = 'pk'
+    
 
 
 
