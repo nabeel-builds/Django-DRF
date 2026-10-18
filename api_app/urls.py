@@ -8,5 +8,9 @@ urlpatterns = [
 
     #class based view
     path('employees/', views.EmployeesView.as_view()),
-    path('employees/<int:pk>', views.EmployeesDetailView.as_view())
+    path('employees/<int:pk>', views.EmployeesDetailView.as_view()),
+
+
+    path('blogs/', views.BlogsView.as_view()),
+    path('comments/', views.CommnetsView.as_view())
 ]

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from students.models import Student
-from .serializers import StudentSerializer, EmployeeSerializer
+from .serializers import StudentSerializer, EmployeeSerializer, BlogSerializer, CommentSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 from employees.models import Employee
 from django.http import Http404
 from rest_framework import mixins, generics
+from blogs.models import Blog, Comment
 
 # Create your views here.
 
@@ -97,27 +98,58 @@ def studentsDetailView(request, pk):
 #         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+
+
+
 # Mixins
-class EmployeesView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+# class EmployeesView(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+#     queryset = Employee.objects.all()
+#     serializer_class = EmployeeSerializer
+
+#     def get(self, request):
+#         return self.list(request)
+
+#     def post(self, request):
+#         return self.create(request)
+
+
+# class EmployeesDetailView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+#     queryset = Employee.objects.all()
+#     serializer_class = EmployeeSerializer
+
+#     def get(self, request, pk):
+#         return self.retrieve(request, pk)
+
+#     def put(self, request, pk):
+#         return self.update(request, pk)
+
+#     def delete(self, request, pk):
+#         return self.destroy(request, pk)
+
+
+
+
+
+# Generics
+
+class EmployeesView(generics.ListCreateAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
-    def get(self, request):
-        return self.list(request)
-
-    def post(self, request):
-        return self.create(request)
 
 
-class EmployeesDetailView(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, generics.GenericAPIView):
+class EmployeesDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
+    lookup_field = 'pk'
 
-    def get(self, request, pk):
-        return self.retrieve(request, pk)
 
-    def put(self, request, pk):
-        return self.update(request, pk)
 
-    def delete(self, request, pk):
-        return self.destroy(request, pk)
+class BlogsView(generics.ListCreateAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+
+
+class CommnetsView(generics.ListCreateAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
